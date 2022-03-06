@@ -14,12 +14,21 @@ function App() {
   const [error, setErorr] = useState(null);
 
   useEffect(() => {
-    fetch("https://api.github.com/users/")
+    fetch("https://api.github.com/users")
       .then((respond) => respond.json())
       .then((data) => {
         setData(data);
       });
   }, []);
+
+  const btnClick = () => {
+    fetch("https://api.github.com/users")
+      .then((respond) => respond.json())
+      .then((data) => {
+        setData(data);
+      });
+    setInput("");
+  };
 
   const setData = ({ avatar_url, name, login, html_url }) => {
     setAvatar(avatar_url);
@@ -28,7 +37,9 @@ function App() {
     setUserLink(html_url);
   };
 
-  const searchUser = (e) => setInput(e.target.value);
+  const searchUser = (e) => {
+    setInput(e.target.value);
+  };
 
   const submit = (e) => {
     e.preventDefault();
@@ -47,14 +58,17 @@ function App() {
   return (
     <div>
       <div className="navBar">
-        <img className="textLogo" src={textLogo} alt="Logo" height="32px" />
-        <img className="logo" src={logo} alt="Logo" />
+        <button className="home-reload" onClick={btnClick}>
+          <img className="textLogo" src={textLogo} alt="Logo" height="32px" />
+          <img className="logo" src={logo} alt="Logo" />
+        </button>
       </div>
       <div className="searchBar">
         <form className="UserSearch" onSubmit={submit}>
           <input
             className="input"
             placeholder="GitHub User"
+            value={input}
             onChange={searchUser}
           ></input>
           <button className="searchBtn">Search</button>
